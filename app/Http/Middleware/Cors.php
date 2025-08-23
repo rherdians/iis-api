@@ -8,13 +8,20 @@ use Illuminate\Http\Request;
 
 class Cors
 {
-    public function handle(Request $request, Closure $next)
-    {
-        return $next($request)
+  public function handle(Request $request, Closure $next)
+{
+    if ($request->getMethod() === "OPTIONS") {
+        return response('', 204)
             ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
             ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
             ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
     }
+
+    return $next($request)
+        ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
+        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
+}
 }
 
 // app/Http/Kernel.php (update api middleware group jika perlu)
