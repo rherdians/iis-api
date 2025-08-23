@@ -9,22 +9,24 @@ class Cors
 {
     public function handle(Request $request, Closure $next)
     {
-        // Jika request OPTIONS (preflight), langsung balas
-        if ($request->getMethod() === 'OPTIONS') {
-            return response('', 200)
-                ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
-                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-                ->header('Access-Control-Allow-Credentials', 'true');
-        }
-
-        // Kalau bukan OPTIONS, teruskan ke request berikutnya
         $response = $next($request);
-
-        return $response
-            ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
-            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
-            ->header('Access-Control-Allow-Credentials', 'true');
+        
+        // Untuk semua request, termasuk OPTIONS
+        $response->headers->set('Access-Control-Allow-Origin', 'https://islamic-it-school.com');
+        $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+        $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token');
+        $response->headers->set('Access-Control-Allow-Credentials', 'true');
+        
+        // Jika request OPTIONS, langsung return response
+        if ($request->isMethod('OPTIONS')) {
+            return response('', 200)->withHeaders([
+                'Access-Control-Allow-Origin' => 'https://islamic-it-school.com',
+                'Access-Control-Allow-Methods' => 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
+                'Access-Control-Allow-Headers' => 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token',
+                'Access-Control-Allow-Credentials' => 'true',
+            ]);
+        }
+        
+        return $response;
     }
 }
