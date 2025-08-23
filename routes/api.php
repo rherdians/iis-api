@@ -25,8 +25,7 @@ Route::options('/{any}', function () {
 })->where('any', '.*');
 
 // Auth Routes
-// Menambahkan middleware CORS ke grup ini
-Route::prefix('auth')->middleware(Cors::class)->group(function () {
+Route::prefix('auth')->group(function () {
     Route::post('login', [AuthController::class, 'login']);
     Route::post('register-admin', [AuthController::class, 'register']);
     
@@ -37,8 +36,7 @@ Route::prefix('auth')->middleware(Cors::class)->group(function () {
 });
 
 // Referral Routes
-// Menambahkan middleware CORS ke grup ini
-Route::prefix('referal')->middleware(Cors::class)->group(function () {
+Route::prefix('referal')->group(function () {
     Route::get('/', [ReferralController::class, 'index']);
     Route::post('/', [ReferralController::class, 'store']);
     Route::delete('/{id}', [ReferralController::class, 'destroy']);

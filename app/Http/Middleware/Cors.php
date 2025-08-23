@@ -1,5 +1,4 @@
 <?php
-// app/Http/Middleware/Cors.php (jika perlu custom CORS)
 
 namespace App\Http\Middleware;
 
@@ -8,38 +7,24 @@ use Illuminate\Http\Request;
 
 class Cors
 {
-  public function handle(Request $request, Closure $next)
-{
-    $response = $next($request);
+    public function handle(Request $request, Closure $next)
+    {
+        // Jika request OPTIONS (preflight), langsung balas
+        if ($request->getMethod() === 'OPTIONS') {
+            return response('', 200)
+                ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
+                ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+                ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+                ->header('Access-Control-Allow-Credentials', 'true');
+        }
 
-    return $response
-        ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
-        ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
-        ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With');
-}
-}
+        // Kalau bukan OPTIONS, teruskan ke request berikutnya
+        $response = $next($request);
 
-// app/Http/Kernel.php (update api middleware group jika perlu)
-/*
-protected $middlewareGroups = [
-    'api' => [
-        \Laravel\Sanctum\Http\Middleware\EnsureFrontendRequestsAreStateful::class,
-        'throttle:api',
-        \Illuminate\Routing\Middleware\SubstituteBindings::class,
-        \App\Http\Middleware\Cors::class, // jika menggunakan custom CORS
-    ],
-];
-*/
-
-// composer.json dependencies yang dibutuhkan
-/*
-{
-    "require": {
-        "php": "^8.1",
-        "guzzlehttp/guzzle": "^7.2",
-        "laravel/framework": "^10.0",
-        "laravel/sanctum": "^3.2",
-        "laravel/tinker": "^2.8"
+        return $response
+            ->header('Access-Control-Allow-Origin', 'https://islamic-it-school.com')
+            ->header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS')
+            ->header('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With')
+            ->header('Access-Control-Allow-Credentials', 'true');
     }
 }
-*/
