@@ -12,7 +12,8 @@ class Cors
         $response = $next($request);
         
         // Untuk semua request, termasuk OPTIONS
-        $response->headers->set('Access-Control-Allow-Origin', 'https://islamic-it-school.com');
+        $response->headers->set('Access-Control-Allow-Origin', 'https://islamic-it-school.com',
+    'https://www.islamic-it-school.com');
         $response->headers->set('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
         $response->headers->set('Access-Control-Allow-Headers', 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token');
         $response->headers->set('Access-Control-Allow-Credentials', 'true');

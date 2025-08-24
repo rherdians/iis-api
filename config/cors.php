@@ -6,7 +6,11 @@ return [
 
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['https://islamic-it-school.com'],
+   'allowed_origins' => [
+    'https://islamic-it-school.com',
+    'https://www.islamic-it-school.com',
+],
+
 
     'allowed_origins_patterns' => [],
 

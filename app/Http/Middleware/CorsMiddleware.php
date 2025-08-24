@@ -9,7 +9,7 @@ class CorsMiddleware
     public function handle($request, Closure $next)
     {
         $headers = [
-            'Access-Control-Allow-Origin'      => 'https://islamic-it-school.com',
+            'Access-Control-Allow-Origin'      => 'https://islamic-it-school.com','https://www.islamic-it-school.com',
             'Access-Control-Allow-Methods'     => 'GET, POST, PUT, PATCH, DELETE, OPTIONS',
             'Access-Control-Allow-Headers'     => 'Content-Type, Authorization, X-Requested-With, X-CSRF-Token',
             'Access-Control-Allow-Credentials' => 'true',
